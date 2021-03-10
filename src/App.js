@@ -18,7 +18,7 @@ function App() {
     });
   };
 
-  const users = [
+  const [users, setUsers] = useState([
     {
       id: 1,
       username: 'NaDaPuPu',
@@ -34,11 +34,17 @@ function App() {
       username: 'Depthfirst',
       email: 'osj@example.com'
     }
-  ];
+  ]);
 
   const nextId = useRef(4);
   const onCreate = () => {
-    // 나중에 구현할 배열에 항목 추가하는 로직
+    const user = {
+      id: nextId.current,
+      username,
+      email
+    }
+
+    setUsers([...users, user]);
 
     setinputs({
       username: '',

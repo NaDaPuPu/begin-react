@@ -8,27 +8,10 @@ function User({ user }) {
     )
 }
 
-function UserList() {
-    const users = [
-        {
-            id: 1,
-            username: 'NaDaPuPu',
-            email: 'jun19998@gmail.com'
-        },
-        {
-            id: 2,
-            username: 'VKSEED',
-            email: 'seed@example.com'
-        },
-        {
-            id: 3,
-            username: 'Depthfirst',
-            email: 'osj@example.com'
-        }
-    ];
+function UserList({ users }) {
     return (
         <div>
-            {(users.map((user, index) => (
+            {(users.map(user => (
                 <User user={user} key={user.id} />
             )))}
         </div>

@@ -22,17 +22,20 @@ function App() {
     {
       id: 1,
       username: 'NaDaPuPu',
-      email: 'jun19998@gmail.com'
+      email: 'jun19998@gmail.com',
+      active: true
     },
     {
       id: 2,
       username: 'VKSEED',
-      email: 'seed@example.com'
+      email: 'seed@example.com',
+      active: false
     },
     {
       id: 3,
       username: 'Depthfirst',
-      email: 'osj@example.com'
+      email: 'osj@example.com',
+      active: false
     }
   ]);
 
@@ -60,6 +63,14 @@ function App() {
     setUsers(users.filter(user => user.id !== id));
   };
 
+  const onToggle = id => {
+    setUsers(
+      users.map(user =>
+        user.id === id ? { ...user, active: !user.active } : user // user.id가 id와 같을 경우, 해당 user의 active를 변경한 배열 호출. 아닐 경우, user 배열 호출
+      )
+    );
+  }
+
   return (
     <>
       <CreateUser 
@@ -68,7 +79,7 @@ function App() {
         onChange={onChange}
         onCreate={onCreate}
       />
-      <UserList users={users} onRemove={onRemove}/>
+      <UserList users={users} onRemove={onRemove} onToggle={onToggle}/>
     </>
   );
 }

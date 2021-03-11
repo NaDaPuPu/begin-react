@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useRef, useMemo, useCallback } from 'react';
 import UserList from './UserList';
 import CreateUser from './CreateUser';
 
@@ -15,13 +15,16 @@ function App() {
 
   const { username, email } = inputs;
   
-  const onChange = e => {
-    const { name, value } = e.target;
-    setinputs({
-      ...inputs,
-      [name]: value
-    });
-  };
+  const onChange = useCallback(
+    e => {
+      const { name, value } = e.target;
+      setinputs({
+        ...inputs,
+        [name]: value
+      });
+    },
+    [inputs]
+  );
 
   const [users, setUsers] = useState([
     {
@@ -45,7 +48,7 @@ function App() {
   ]);
 
   const nextId = useRef(4);
-  const onCreate = () => {
+  const onCreate = useCallback(() => {
     const user = {
       id: nextId.current,
       username,
@@ -60,21 +63,28 @@ function App() {
     });
 
     nextId.current += 1;
-  };
+  }, [users, username, email]); // users props, username, email state 사용
+  
 
-  const onRemove = id => {
-    // user.id가 파라미터로 일치하지 않는 원소만 추출해서 새로운 배열을 만듦
-    // = user.id가 id인 것을 제거함
-    setUsers(users.filter(user => user.id !== id));
-  };
+  const onRemove = useCallback(
+    id => {
+      // user.id가 파라미터로 일치하지 않는 원소만 추출해서 새로운 배열을 만듦
+      // = user.id가 id인 것을 제거함
+      setUsers(users.filter(user => user.id !== id));
+    },
+    [users] // users props 사용
+  ); 
 
-  const onToggle = id => {
-    setUsers(
-      users.map(user =>
-        user.id === id ? { ...user, active: !user.active } : user // user.id가 id와 같을 경우, 해당 user의 active를 변경한 배열 호출. 아닐 경우, user 배열 호출
-      )
-    );
-  }
+  const onToggle = useCallback(
+    id => {
+      setUsers(
+        users.map(user =>
+          user.id === id ? { ...user, active: !user.active } : user // user.id가 id와 같을 경우, 해당 user의 active를 변경한 배열 호출. 아닐 경우, user 배열 호출
+        )
+      );
+    },
+    [users] // users props 사용
+  ); 
 
   const count = useMemo(() => countActiveUsers(users), [users]);
 

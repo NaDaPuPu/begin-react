@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo, useCallback } from 'react';
+import React, { useRef, useReducer, useMemo, useCallback } from 'react';
 import UserList from './UserList';
 import CreateUser from './CreateUser';
 
@@ -34,11 +34,19 @@ const initialState = {
   ]
 }
 
+function reducer(state, action) {
+  return state;
+}
+
 function App() {
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const { users } = state;
+  const { username, email } = state.inputs;
+
   return (
     <>
-      <CreateUser />
-      <UserList users={[]}/>
+      <CreateUser username={username} email={email}/>
+      <UserList users={users}/>
       <div>활성 사용자 수 : 0</div>
     </>
   );

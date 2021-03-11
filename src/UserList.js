@@ -19,6 +19,7 @@ function User({ user, onRemove, onToggle }) {
 }
 
 function UserList({ users, onRemove, onToggle }) {
+    console.log("UserList update");
     return (
         <div>
             {(users.map(user => (

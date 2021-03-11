@@ -15,16 +15,13 @@ function App() {
 
   const { username, email } = inputs;
   
-  const onChange = useCallback(
-    e => {
-      const { name, value } = e.target;
-      setinputs({
-        ...inputs,
-        [name]: value
-      });
-    },
-    [inputs]
-  );
+  const onChange = useCallback(e => {
+    const { name, value } = e.target;
+    setinputs(inputs => ({
+      ...inputs,
+      [name]: value
+    }));
+  }, []);
 
   const [users, setUsers] = useState([
     {
@@ -53,9 +50,8 @@ function App() {
       id: nextId.current,
       username,
       email
-    }
-
-    setUsers(users.concat(user));
+    };
+    setUsers(users => users.concat(user));
 
     setinputs({
       username: '',
@@ -63,27 +59,25 @@ function App() {
     });
 
     nextId.current += 1;
-  }, [users, username, email]); // users props, username, email state 사용
+  }, [username, email]); // users props, username, email state 사용
   
 
   const onRemove = useCallback(
     id => {
       // user.id가 파라미터로 일치하지 않는 원소만 추출해서 새로운 배열을 만듦
       // = user.id가 id인 것을 제거함
-      setUsers(users.filter(user => user.id !== id));
-    },
-    [users] // users props 사용
+      setUsers(users => users.filter(user => user.id !== id));
+    }, [] // users props 사용
   ); 
 
   const onToggle = useCallback(
     id => {
-      setUsers(
+      setUsers(users =>
         users.map(user =>
           user.id === id ? { ...user, active: !user.active } : user // user.id가 id와 같을 경우, 해당 user의 active를 변경한 배열 호출. 아닐 경우, user 배열 호출
         )
       );
-    },
-    [users] // users props 사용
+    }, [] // users props 사용
   ); 
 
   const count = useMemo(() => countActiveUsers(users), [users]);

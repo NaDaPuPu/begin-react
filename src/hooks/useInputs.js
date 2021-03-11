@@ -17,7 +17,10 @@ function reducer(state, action) {
                 [action.name]: action.value
             };
         case 'RESET_INPUT':
-            return action.form
+            return Object.keys(state).reduce((acc, current) => {
+                acc[current] = '';
+                return acc;
+            }, {});
         default:
             return state;
     }
@@ -38,9 +41,8 @@ function useInputs(initialForm) {
     const reset = useCallback(() => {
         dispatch({
             type: 'RESET_INPUT',
-            form: initialForm
         });
-    }, [initialForm]);
+    }, []);
 
     return [state, onChange, reset];
 }

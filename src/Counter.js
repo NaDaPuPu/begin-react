@@ -1,18 +1,12 @@
 import React, { Component } from 'react';
 
 class Counter extends Component {
-    constructor(props) {
-        super(props);
-        this.handleIncrease = this.handleIncrease.bind(this);
-        this.handleDecrease = this.handleDecrease.bind(this);
-    }
-
-    handleIncrease() {
+    handleIncrease = () => {
         console.log('Increase');
         console.log(this);
     }
 
-    handleDecrease() {
+    handleDecrease = () => {
         console.log('Decrease');
     }
 
